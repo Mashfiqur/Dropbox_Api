@@ -62,10 +62,31 @@ var getUrlParameter = function getUrlParameter(sParam) {
 function access(){
 
 var c = getUrlParameter('code');
-$.post('https://api.dropbox.com/oauth2/token', {code: c, grant_type:'authorization_code',redirect_uri:'http://localhost:8000/home'}).done(function(response){
-      alert("success");
-      $("#info").html(response);
+function make_base_auth(user, password) {
+  var tok = user + ':' + password;
+  var hash = btoa(tok);
+  return "Basic " + hash;
+}
+$.ajax
+  ({
+    type: "POST",
+    url: "https://api.dropbox.com/oauth2/token",
+    dataType: 'json',
+    async: false,
+    data: {code: c, grant_type:'authorization_code',redirect_uri:'http://localhost:8000/home'},
+    beforeSend: function (xhr){ 
+        xhr.setRequestHeader('Authorization', make_base_auth('3ov6oupaxezv61q','pr0fuao3nn4fe2a')); 
+    },
+    success: function (){
+        $("#info").html(response);
+    }
 });
+
+
+// $.post('https://api.dropbox.com/oauth2/token', {code: c, grant_type:'authorization_code',redirect_uri:'http://localhost:8000/home'}).done(function(response){
+//       alert("success");
+//       $("#info").html(response);
+// });
 }
 
 </script>
