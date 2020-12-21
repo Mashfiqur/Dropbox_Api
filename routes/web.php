@@ -19,4 +19,8 @@ Route::get('/', function () {
 
 Auth::routes();
 Route::get('/home',[App\Http\Controllers\HomeController::class,'index'])->name('home');
-Route::post('/user_account', [App\Http\Controllers\HomeController::class,'get_account_details']);
+Route::get('/upload-file/dropbox', function () {
+    return view('upload_file');
+});
+Route::post('/upload-file_dropbox',[App\Http\Controllers\HomeController::class,'upload']);
+Route::post('/store/dropbox/access_token', [App\Http\Controllers\HomeController::class,'store_account_details'])->name('dropbox_account.store');
